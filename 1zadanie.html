@@ -1,0 +1,56 @@
+<body>
+    <h1>Методи масивів: Products</h1>
+
+    <button id="showAvailable">Показати доступні товари</button>
+    <ul id="availableList"></ul>
+
+    <h2>Пошук товару за назвою</h2>
+    <input type="text" id="productName" placeholder="Введіть назву товару">
+    <button id="searchBtn">Знайти товар</button>
+    <p id="searchResult"></p>
+
+    <script>
+        const products = [
+            { name: "Ноутбук", category: "Електроніка", price: 1500, inStock: 5 },
+            { name: "Телефон", category: "Електроніка", price: 800, inStock: 0 },
+            { name: "Футболка", category: "Одяг", price: 20, inStock: 10 },
+            { name: "Книга", category: "Книги", price: 15, inStock: 2 },
+            { name: "Чашка", category: "Посуд", price: 7, inStock: 0 }
+        ];
+
+        function getAvailableProducts(productsArray) {
+            return productsArray.filter(product => product.inStock > 0);
+        }
+
+ 
+        function findProductByName(productsArray, productName) {
+            const product = productsArray.find(item => item.name.toLowerCase() === productName.toLowerCase());
+            return product || "Товар не знайдено";
+        }
+
+   
+        document.getElementById("showAvailable").addEventListener("click", () => {
+            const available = getAvailableProducts(products);
+            const ul = document.getElementById("availableList");
+            ul.innerHTML = ""; // очищаємо список перед додаванням
+            available.forEach(item => {
+                const li = document.createElement("li");
+                li.textContent = `${item.name} (${item.category}) - ${item.price}$, в наявності: ${item.inStock}`;
+                ul.appendChild(li);
+            });
+        });
+
+     
+        document.getElementById("searchBtn").addEventListener("click", () => {
+            const name = document.getElementById("productName").value;
+            const result = findProductByName(products, name);
+            const p = document.getElementById("searchResult");
+
+            if (typeof result === "string") {
+                p.textContent = result; // "Товар не знайдено"
+            } else {
+                p.textContent = `${result.name} (${result.category}) - ${result.price}$, в наявності: ${result.inStock}`;
+            }
+        });
+    </script>
+</body>

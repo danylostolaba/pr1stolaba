@@ -1,0 +1,40 @@
+<body>
+    <h1>Студенти: групування та сортування</h1>
+
+    <button id="groupBtn">Групувати студентів</button>
+    <pre id="groupResult"></pre>
+
+    <button id="sortBtn">Відсортувати студентів за оцінками</button>
+    <pre id="sortResult"></pre>
+
+    <script>
+        const students = [
+            { name: "Іван", age: 20, grade: 85, group: "A" },
+            { name: "Олена", age: 19, grade: 92, group: "B" },
+            { name: "Петро", age: 21, grade: 78, group: "A" },
+            { name: "Марія", age: 20, grade: 88, group: "B" },
+            { name: "Андрій", age: 22, grade: 95, group: "C" },
+            { name: "Світлана", age: 19, grade: 80, group: "C" }
+        ];
+
+        function groupBy(studentsArray) {
+            return studentsArray.reduce((acc, student) => {
+                if (!acc[student.group]) acc[student.group] = [];
+                acc[student.group].push(student);
+                return acc;
+            }, {});
+        }
+
+        function sortStudentsByGrade(studentsArray) {
+            return [...studentsArray].sort((a, b) => b.grade - a.grade);
+        }
+        document.getElementById("groupBtn").addEventListener("click", () => {
+            const grouped = groupBy(students);
+            document.getElementById("groupResult").textContent = JSON.stringify(grouped, null, 2);
+        });
+        document.getElementById("sortBtn").addEventListener("click", () => {
+            const sorted = sortStudentsByGrade(students);
+            document.getElementById("sortResult").textContent = JSON.stringify(sorted, null, 2);
+        });
+    </script>
+</body>

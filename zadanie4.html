@@ -1,0 +1,56 @@
+<body>
+    <h1>Аналіз книг</h1>
+
+    <button id="unreadBtn">Непрочитані книги</button>
+    <p id="unreadResult"></p>
+
+    <input type="text" id="authorName" placeholder="Введіть ім'я автора">
+    <button id="authorBtn">Книги автора</button>
+    <pre id="authorResult"></pre>
+
+    <button id="topRatedBtn">Топ-книги (рейтинг > 4)</button>
+    <pre id="topRatedResult"></pre>
+
+    <script>
+        const books = [
+            { title: "1984", author: "Джордж Орвелл", year: 1949, rating: 4.7, isRead: true },
+            { title: "Гаррі Поттер", author: "Джоан Роулінг", year: 1997, rating: 4.8, isRead: false },
+            { title: "Маленький принц", author: "Антуан де Сент-Екзюпері", year: 1943, rating: 4.5, isRead: true },
+            { title: "Володар перснів", author: "Дж. Р. Р. Толкін", year: 1954, rating: 4.9, isRead: false },
+            { title: "Голодні ігри", author: "Сюзанна Коллінз", year: 2008, rating: 4.2, isRead: true },
+            { title: "Щоденник Анни Франк", author: "Анна Франк", year: 1947, rating: 4.6, isRead: false }
+        ];
+
+        function getUnreadBooks(booksArray) {
+            return booksArray.filter(book => !book.isRead).map(book => book.title);
+        }
+
+        function getBooksByAuthor(booksArray, authorName) {
+            return booksArray
+                .filter(book => book.author.toLowerCase() === authorName.toLowerCase())
+                .sort((a, b) => a.year - b.year);
+        }
+
+        function getTopRatedBooks(booksArray) {
+            return booksArray
+                .filter(book => book.rating > 4)
+                .sort((a, b) => b.rating - a.rating);
+        }
+
+        document.getElementById("unreadBtn").addEventListener("click", () => {
+            const unread = getUnreadBooks(books);
+            document.getElementById("unreadResult").textContent = unread.join(", ");
+        });
+
+        document.getElementById("authorBtn").addEventListener("click", () => {
+            const author = document.getElementById("authorName").value;
+            const result = getBooksByAuthor(books, author);
+            document.getElementById("authorResult").textContent = JSON.stringify(result, null, 2);
+        });
+
+        document.getElementById("topRatedBtn").addEventListener("click", () => {
+            const top = getTopRatedBooks(books);
+            document.getElementById("topRatedResult").textContent = JSON.stringify(top, null, 2);
+        });
+    </script>
+</body>

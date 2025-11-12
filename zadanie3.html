@@ -1,0 +1,46 @@
+<body>
+    <h1>Статистичний аналіз працівників</h1>
+
+    <button id="avgSalaryBtn">Середня зарплата</button>
+    <p id="avgSalaryResult"></p>
+
+    <button id="mostExpBtn">Найбільш досвідчений працівник</button>
+    <p id="mostExpResult"></p>
+
+    <script>
+        const employees = [
+            { name: "Іван", position: "Менеджер", salary: 1500, years: 5 },
+            { name: "Олена", position: "Розробник", salary: 2000, years: 3 },
+            { name: "Петро", position: "Дизайнер", salary: 1800, years: 6 },
+            { name: "Марія", position: "Аналітик", salary: 1700, years: 4 },
+            { name: "Андрій", position: "Тестувальник", salary: 1600, years: 7 }
+        ];
+
+        function getAverageSalary(employeesArray) {
+            if (employeesArray.length === 0) return 0;
+            const totalSalary = employeesArray.reduce((sum, emp) => sum + emp.salary, 0);
+            return totalSalary / employeesArray.length;
+        }
+
+
+        function findMostExperiencedEmployee(employeesArray) {
+            if (employeesArray.length === 0) return null;
+            return employeesArray.reduce((mostExperienced, emp) => {
+                return (emp.years > mostExperienced.years) ? emp : mostExperienced;
+            }, employeesArray[0]);
+        }
+
+ 
+        document.getElementById("avgSalaryBtn").addEventListener("click", () => {
+            const avg = getAverageSalary(employees);
+            document.getElementById("avgSalaryResult").textContent = `Середня зарплата: ${avg.toFixed(2)}$`;
+        });
+
+
+        document.getElementById("mostExpBtn").addEventListener("click", () => {
+            const emp = findMostExperiencedEmployee(employees);
+            document.getElementById("mostExpResult").textContent =
+                `Найбільш досвідчений працівник: ${emp.name}, посада: ${emp.position}, стаж: ${emp.years} років`;
+        });
+    </script>
+</body>
